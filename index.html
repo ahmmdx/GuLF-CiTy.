@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Golf City | GCRP</title><link rel="stylesheet" href="style.css">
+</head><body>
+<header class="topbar">
+<button class="menuBtn" id="menuBtn" aria-label="القائمة">☰</button>
+<div class="brand">GOLF <span>CITY</span><small>REAL LIFE • BETTER CITY</small></div>
+<button class="loginBtn" id="loginBtn">تسجيل الدخول</button>
+</header>
+
+<aside class="sidebar" id="sidebar">
+<div class="sideHead"><b>GOLF <span>CITY</span></b><button id="closeMenu">×</button></div>
+<a href="#home">الرئيسية</a><a href="#rules">قوانين RP</a><a href="#power">قوانين القوة بلاي</a>
+<a href="#about">تعريف السيرفر</a><a href="#team">المؤسسون والمبرمجون</a><a href="#apply">تقديمات الإدارة</a>
+<a href="#memberships">العضويات</a><a href="mdt.html">MDT</a>
+<a class="adminOnly" id="identitiesLink" href="#identities">🔒 إدارة الهويات</a>
+</aside><div class="overlay" id="overlay"></div>
+
+<main id="home">
+<section class="hero"><div class="heroShade"><div class="heroLogo">GOLF <span>CITY</span><small>REAL LIFE • BETTER CITY</small></div><h1>أهلاً وسهلاً بكم في موقع جولف سيتي الرسمي</h1><p>منصتكم الرسمية المرتبطة مباشرة بأنظمة وهويات السيرفر.</p></div></section>
+
+<section class="stats">
+<article><strong id="members">—</strong><small>عضو مسجل</small></article>
+<article><strong id="identities">—</strong><small>هوية مسجلة</small></article>
+<article><strong id="characters">—</strong><small>شخصية</small></article>
+<article><strong>24</strong><small>الإدارة</small></article>
+</section>
+
+<div class="contentGrid">
+<section id="rules" class="card"><h2>قوانين السيرفر</h2><ul><li>الالتزام بالآداب العامة واحترام الجميع</li><li>منع أي نوع من السب أو التمييز</li><li>احترام قوانين السيرفر وتعليماته</li><li>الالتزام بقوانين الـRP</li></ul></section>
+<section id="about" class="card"><h2>تعريف سيرفر جولف سيتي</h2><p>مجتمع افتراضي متكامل يجمع بين الواقعية والتفاعل، ويوفر بيئة منظمة وأنظمة متطورة لخوض تجربة فريدة وممتعة.</p><a href="mdt.html" class="action">دخول MDT</a></section>
+<section id="memberships" class="card"><h2>العضويات</h2><p>معلومات ومزايا العضويات تظهر هنا حسب ما يتم ربطه من النظام.</p></section>
+<section id="power" class="card"><h2>قوانين القوة بلاي</h2><p>يمنع فرض الأفعال غير المنطقية أو استغلال القوة بشكل غير عادل.</p></section>
+<section id="team" class="card"><h2>المؤسسون والمبرمجون</h2><p>GCRP</p></section>
+<section id="apply" class="card"><h2>تقديمات الإدارة</h2><p>تظهر التقديمات عند فتحها من الإدارة.</p></section>
+</div>
+
+<section id="identities" class="adminPanel" hidden>
+<div class="panelTitle"><h2>🔒 إدارة الهويات</h2><span>خاص بأدمن الموقع</span></div>
+<div class="search"><input id="identitySearch" placeholder="البحث بالاسم أو رقم الهوية"><button id="identityGo">بحث</button></div>
+<div id="identityResult">ابحث عن هوية مسجلة في نفس قاعدة بيانات البوت.</div>
+</section>
+</main>
+
+<div class="modal" id="modal"><div class="modalBox"><button id="modalClose">×</button><h2>تسجيل دخول الإدارة</h2>
+<input id="adminUser" placeholder="اسم المستخدم"><input id="adminPass" type="password" placeholder="كلمة المرور">
+<button id="adminLogin">دخول</button><p id="loginMessage"></p></div></div>
+
+<footer>GCRP © 2026 — جميع الحقوق محفوظة</footer>
+<script>window.GITHUB_PAGES_STATIC=true;</script><script src="app.js"></script></body></html>
