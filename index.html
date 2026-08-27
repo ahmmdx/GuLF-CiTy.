@@ -1,51 +1,170 @@
-<!doctype html>
-<html lang="ar" dir="rtl"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Golf City | GCRP</title><link rel="stylesheet" href="style.css">
-</head><body>
-<header class="topbar">
-<button class="menuBtn" id="menuBtn" aria-label="القائمة">☰</button>
-<div class="brand">GOLF <span>CITY</span><small>REAL LIFE • BETTER CITY</small></div>
-<button class="loginBtn" id="loginBtn">تسجيل الدخول</button>
-</header>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golf City | قولف سيتي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-turquoise: #00A896;
+            --turquoise-hover: #028a7c;
+            --bg-dark: #0f1115;
+            --card-bg: #181c24;
+            --text-light: #F8F9FA;
+            --text-gray: #a0aec0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-light); }
+        
+        /* شريط التنقل العلوي */
+        header { 
+            background: rgba(15, 17, 21, 0.95); 
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000; 
+            border-bottom: 2px solid var(--primary-turquoise); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 50px; 
+            backdrop-filter: blur(10px);
+        }
+        .logo { font-size: 26px; font-weight: 900; color: var(--primary-turquoise); letter-spacing: 1px; }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav ul li a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 15px; transition: 0.3s; }
+        nav ul li a:hover { color: var(--primary-turquoise); }
 
-<aside class="sidebar" id="sidebar">
-<div class="sideHead"><b>GOLF <span>CITY</span></b><button id="closeMenu">×</button></div>
-<a href="#home">الرئيسية</a><a href="#rules">قوانين RP</a><a href="#power">قوانين القوة بلاي</a>
-<a href="#about">تعريف السيرفر</a><a href="#team">المؤسسون والمبرمجون</a><a href="#apply">تقديمات الإدارة</a>
-<a href="#memberships">العضويات</a><a href="mdt.html">MDT</a>
-<a class="adminOnly" id="identitiesLink" href="#identities">🔒 إدارة الهويات</a>
-</aside><div class="overlay" id="overlay"></div>
+        /* الواجهة الرئيسية */
+        .hero { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            background: linear-gradient(rgba(15, 17, 21, 0.85), rgba(15, 17, 21, 0.95)), url('hero-bg.jpg') center/cover; 
+            padding: 0 20px; 
+        }
+        .hero h1 { font-size: 52px; margin-bottom: 15px; color: var(--primary-turquoise); font-weight: 900; }
+        .hero p { font-size: 18px; margin-bottom: 30px; max-width: 650px; color: var(--text-gray); line-height: 1.6; }
+        .btn-server { 
+            background: var(--primary-turquoise); 
+            color: #fff; 
+            padding: 14px 35px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 16px;
+            transition: 0.3s; 
+            box-shadow: 0 4px 15px rgba(0, 168, 150, 0.3);
+        }
+        .btn-server:hover { background: var(--turquoise-hover); transform: translateY(-2px); }
 
-<main id="home">
-<section class="hero"><div class="heroShade"><div class="heroLogo">GOLF <span>CITY</span><small>REAL LIFE • BETTER CITY</small></div><h1>أهلاً وسهلاً بكم في موقع جولف سيتي الرسمي</h1><p>منصتكم الرسمية المرتبطة مباشرة بأنظمة وهويات السيرفر.</p></div></section>
+        /* شريط العدادات */
+        .stats-bar { 
+            display: flex; 
+            justify-content: space-around; 
+            background: #141820; 
+            padding: 30px; 
+            border-top: 1px solid #222; 
+            border-bottom: 1px solid #222;
+        }
+        .stat-item { text-align: center; }
+        .stat-item h3 { font-size: 32px; color: var(--primary-turquoise); font-weight: 900; }
+        .stat-item p { color: var(--text-gray); font-size: 15px; margin-top: 5px; }
 
-<section class="stats">
-<article><strong id="members">—</strong><small>عضو مسجل</small></article>
-<article><strong id="identities">—</strong><small>هوية مسجلة</small></article>
-<article><strong id="characters">—</strong><small>شخصية</small></article>
-<article><strong>24</strong><small>الإدارة</small></article>
-</section>
+        /* قسم الأقسام والقوانين */
+        .section-container { max-width: 1100px; margin: 80px auto; padding: 0 20px; }
+        .section-title { font-size: 30px; color: var(--primary-turquoise); margin-bottom: 20px; font-weight: 800; border-right: 4px solid var(--primary-turquoise); padding-right: 15px; }
+        .card { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid #262c38; margin-bottom: 25px; line-height: 1.8; color: var(--text-gray); }
+        .card h3 { color: #fff; margin-bottom: 10px; font-size: 20px; }
+        
+        footer { text-align: center; padding: 30px; background: #0a0c0f; color: var(--text-gray); font-size: 14px; border-top: 1px solid #1a202c; }
+    </style>
+</head>
+<body>
 
-<div class="contentGrid">
-<section id="rules" class="card"><h2>قوانين السيرفر</h2><ul><li>الالتزام بالآداب العامة واحترام الجميع</li><li>منع أي نوع من السب أو التمييز</li><li>احترام قوانين السيرفر وتعليماته</li><li>الالتزام بقوانين الـRP</li></ul></section>
-<section id="about" class="card"><h2>تعريف سيرفر جولف سيتي</h2><p>مجتمع افتراضي متكامل يجمع بين الواقعية والتفاعل، ويوفر بيئة منظمة وأنظمة متطورة لخوض تجربة فريدة وممتعة.</p><a href="mdt.html" class="action">دخول MDT</a></section>
-<section id="memberships" class="card"><h2>العضويات</h2><p>معلومات ومزايا العضويات تظهر هنا حسب ما يتم ربطه من النظام.</p></section>
-<section id="power" class="card"><h2>قوانين القوة بلاي</h2><p>يمنع فرض الأفعال غير المنطقية أو استغلال القوة بشكل غير عادل.</p></section>
-<section id="team" class="card"><h2>المؤسسون والمبرمجون</h2><p>GCRP</p></section>
-<section id="apply" class="card"><h2>تقديمات الإدارة</h2><p>تظهر التقديمات عند فتحها من الإدارة.</p></section>
-</div>
+    <!-- شريط التنقل العلوي -->
+    <header>
+        <div class="logo">GOLF CITY</div>
+        <nav>
+            <ul>
+                <li><a href="#home">الواجهة الرئيسية</a></li>
+                <li><a href="#rules">قوانين الـ RP</a></li>
+                <li><a href="#about">تعريف السيرفر</a></li>
+                <li><a href="#devs">المؤسسين والبرمجيين</a></li>
+                <li><a href="#apply">تقديمات الإدارة</a></li>
+                <li><a href="mdt.html" target="_blank" style="color: var(--primary-turquoise);">لوحة الـ MDT</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<section id="identities" class="adminPanel" hidden>
-<div class="panelTitle"><h2>🔒 إدارة الهويات</h2><span>خاص بأدمن الموقع</span></div>
-<div class="search"><input id="identitySearch" placeholder="البحث بالاسم أو رقم الهوية"><button id="identityGo">بحث</button></div>
-<div id="identityResult">ابحث عن هوية مسجلة في نفس قاعدة بيانات البوت.</div>
-</section>
-</main>
+    <!-- الواجهة الرئيسية -->
+    <section id="home" class="hero">
+        <h1>مرحباً بك في سيرفر Golf City</h1>
+        <p>الوجهة الأولى والأبرز لتجربة رول بلاي واقعية، احترافية، وبمعايير تنافسية فريدة. انضم إلى مجتمعنا الآن وابدأ قصتك.</p>
+        <a href="fivem://connect/YOUR_SERVER_IP" class="btn-server">دخول السيرفر مباشرة</a>
+    </section>
 
-<div class="modal" id="modal"><div class="modalBox"><button id="modalClose">×</button><h2>تسجيل دخول الإدارة</h2>
-<input id="adminUser" placeholder="اسم المستخدم"><input id="adminPass" type="password" placeholder="كلمة المرور">
-<button id="adminLogin">دخول</button><p id="loginMessage"></p></div></div>
+    <!-- شريط الإحصائيات -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <h3>8,000</h3>
+            <p>إجمالي الأعضاء</p>
+        </div>
+        <div class="stat-item">
+            <h3>600</h3>
+            <p>المتصلين الآن</p>
+        </div>
+        <div class="stat-item">
+            <h3>24</h3>
+            <p>الإدارة المتواجدة</p>
+        </div>
+    </div>
 
-<footer>GCRP © 2026 — جميع الحقوق محفوظة</footer>
-<script>window.GITHUB_PAGES_STATIC=true;</script><script src="app.js"></script></body></html>
+    <!-- قسم قوانين الـ RP -->
+    <div id="rules" class="section-container">
+        <h2 class="section-title">قوانين الـ RP (رول بلاي)</h2>
+        <div class="card">
+            <h3>1. القواعد العامة للعب</h3>
+            <p>يجب الالتزام بالواقعية التامة داخل السيرفر وتجنب أي تصرفات تخرج عن إطار تقمص الشخصية (FailRP). احترام جميع اللاعبين وطاقم الإدارة واجب أساسي.</p>
+        </div>
+        <div class="card"><h3>2. قوانين السيناريوهات والاشتباكات</h3>
+            <p>يمنع منعاً باتاً افتعال المشاكل أو بدء سيناريوهات عدائية دون سبب درامي واضح يخدم مسار القصة والـ RP.</p>
+        </div>
+    </div>
+
+    <!-- تعريف السيرفر -->
+    <div id="about" class="section-container">
+        <h2 class="section-title">تعريف السيرفر</h2>
+        <div class="card">
+            <p>سيرفر قولف سيتي هو مجتمع متكامل يقدم أنظمة برمجية فريدة، معارض سيارات مخصصة، وظائف حكومية وعامة احترافية، ونظام إداري وأمني متطور يربط الموقع باللعبة لحظياً (Live Sync).</p>
+        </div>
+    </div>
+
+    <!-- المؤسسين والبرمجيين -->
+    <div id="devs" class="section-container">
+        <h2 class="section-title">المؤسسين والبرمجيين</h2>
+        <div class="card">
+            <h3>طاقم التطوير والإدارة العليا</h3>
+            <p>يتم إدارة وتطوير سيرفر Golf City بواسطة نخبة من المطورين والمؤسسين لضمان استقرار الخادم وتقديم أفضل تجربة أداء خالية من المشاكل.</p>
+        </div>
+    </div>
+
+    <!-- تقديمات الإدارة -->
+    <div id="apply" class="section-container">
+        <h2 class="section-title">تقديمات الإدارة</h2>
+        <div class="card">
+            <h3>انضم إلى طاقم العمل</h3>
+            <p>باب التقديم على الرتب الإدارية وشرطة قولف سيتي مفتوح دائماً للمرشحين المؤهلين. يمكنك التقديم عبر وسائل التواصل أو الديسكورد الخاص بالسيرفر.</p>
+        </div>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوضة © 2026 Golf City Roleplay.
+    </footer>
+
+</body>
+</html>
