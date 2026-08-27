@@ -1,6 +1,156 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GCRP MDT</title><link rel="stylesheet" href="style.css"></head><body class="mdt">
-<header><b>GCRP MDT</b><nav><a href="index.html">العودة للموقع</a></nav></header>
-<main><section class="mdtHero"><h1>Mobile Data Terminal</h1><p>ابحث في نفس الهويات المسجلة داخل البوت.</p><div class="search"><input id="q" placeholder="الاسم أو رقم الهوية"><button id="go">بحث</button></div></section>
-<div id="result" class="empty">اكتب الاسم أو رقم الهوية للبحث.</div>
-<section class="grid" id="dashboard" hidden><article><h3>معلومات الشخصية</h3><div id="identity"></div></article><article><h3>البيانات المالية</h3><div id="money"></div></article><article><h3>الممتلكات</h3><div id="assets"></div></article><article><h3>MDT</h3><div id="mdtdata"></div></article></section>
-<section id="charts" hidden><h2>إحصائيات الشخصية</h2><div class="bars" id="bars"></div></section></main><script src="/website/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golf City | نظام الـ MDT المركزي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الرسوم البيانية Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-neutral: #0e1013;
+            --card-neutral: #171a21;
+            --border-neutral: #2a2f3d;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-neutral: #475569;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background-color: var(--bg-neutral); color: var(--text-main); padding: 30px; }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .header-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: var(--card-neutral); 
+            padding: 20px 30px; 
+            border-radius: 10px; 
+            border: 1px solid var(--border-neutral); 
+            margin-bottom: 30px;
+        }
+        .header-bar h1 { font-size: 22px; font-weight: 700; color: #fff; }
+        .back-btn { background: #262d3d; color: #fff; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .back-btn:hover { background: #333d52; }
+
+        /* شبكة المعلومات والبحث */
+        .grid-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .panel-card { background: var(--card-neutral); padding: 25px; border-radius: 10px; border: 1px solid var(--border-neutral); }
+        .panel-card h3 { font-size: 18px; margin-bottom: 15px; color: #fff; border-bottom: 1px solid var(--border-neutral); padding-bottom: 8px; }
+
+        /* حقول البحث وبيانات الشخصية */
+        .search-box { display: flex; gap: 10px; margin-bottom: 15px; }
+        .search-box input { flex: 1; background: #0f1115; border: 1px solid var(--border-neutral); padding: 10px; border-radius: 6px; color: #fff; }
+        .search-box button { background: var(--accent-neutral); color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px; color: var(--text-muted); }
+        .info-grid span { color: #fff; font-weight: 600; }
+
+        /* الحاويات الخاصة بالرسوم البيانية */
+        .chart-container { background: var(--card-neutral); padding: 25px; border-radius: 10px; border: 1px solid var(--border-neutral); margin-bottom: 30px; }
+        .chart-container h3 { font-size: 18px; margin-bottom: 15px; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- شريط العنوان -->
+        <div class="header-bar">
+            <h1>نظام الـ MDT وسجلات العساكر والشخصيات (Golf City)</h1>
+            <a href="index.html" class="back-btn">العودة للرئيسية</a>
+        </div>
+
+        <!-- معلومات الهوية والمؤشرات الحيوية -->
+        <div class="grid-dashboard">
+            <div class="panel-card">
+                <h3>بحث عن شخصية / هوية</h3>
+                <div class="search-box">
+                    <input type="text" placeholder="أدخل اسم الشخصية أو رقم الهوية (ID)...">
+                    <button>بحث</button>
+                </div>
+                <div class="info-grid">
+                    <p>الاسم الكامل: <span id="char-name">غير محدد</span></p>
+                    <p>رقم الهوية (ID): <span id="char-id">---</span></p>
+                    <p>العمر: <span id="char-age">---</span></p>
+                    <p>مكان الولادة: <span id="char-birth">---</span></p>
+                    <p>المبلغ النقدي (Cash): <span id="char-cash">$0</span></p>
+                    <p>الرصيد البنكي: <span id="char-bank">$0</span></p>
+                </div>
+            </div>
+
+            <div class="panel-card">
+                <h3>المؤشرات الحيوية والحالة العامة</h3>
+                <div class="info-grid" style="grid-template-columns: 1fr; gap: 15px; margin-top: 10px;">
+                    <p>مؤشر الصحة (Health): <span style="color: #4ade80;">100% (ممتاز)</span></p>
+                    <p>مؤشر الجوع والعطش: <span style="color: #facc15;">مستقر</span></p>
+                    <p>الحالة الجنائية / المخطوطة: <span style="color: #f87171;">لا توجد سجلات أمنية نشطة</span></p>
+                    <p>الوظيفة الحالية: <span style="color: #60a5fa;">عسكري / مدني</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الرسوم البيانية للـ MDT (محايدة / بدون ألوان فاقعة) -->
+        <div class="chart-container">
+            <h3>إحصائيات وقضايا الـ MDT (رسم بياني تحليلي)</h3>
+            <canvas id="mdtStatsChart" height="90"></canvas>
+        </div>
+
+        <!-- رسوم بيانية معارض السيارات -->
+        <div class="chart-container">
+            <h3>إحصائيات حركة معارض السيارات (معدل المبيعات والطلب)</h3>
+            <canvas id="dealershipStatsChart" height="90"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // إعداد الرسم البياني للـ MDT بألوان محايدة رسمية
+        const ctxMdt = document.getElementById('mdtStatsChart').getContext('2d');
+        new Chart(ctxMdt, {
+            type: 'bar',
+            data: {
+                labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس'],
+                datasets: [{
+                    label: 'عدد القضايا والبلاغات المسجلة',
+                    data: [45, 59, 80, 81, 56, 55, 40, 72],
+                    backgroundColor: '#475569',
+                    borderColor: '#334155',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { grid: { color: '#222831' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // إعداد الرسم البياني لمعارض السيارات
+        const ctxDealership = document.getElementById('dealershipStatsChart').getContext('2d');
+        new Chart(ctxDealership, {
+            type: 'line',
+            data: {
+                labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
+                datasets: [{
+                    label: 'معدل شراء وتداول السيارات في المعارض',
+                    data: [12, 19, 15, 25, 22, 30, 45],
+                    borderColor: '#64748b',
+                    backgroundColor: 'rgba(100, 116, 139, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: {
+                    y: { grid: { color: '#222831' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
